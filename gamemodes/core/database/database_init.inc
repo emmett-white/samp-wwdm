@@ -16,6 +16,7 @@
 */
 
 
+
 #include <YSI_Coding\y_hooks>
 
 // variables;
@@ -52,22 +53,22 @@ static MySQL_CreateConnection()
 
 
 	new MySQLOpt: options = mysql_init_options();
-    mysql_set_option(options, AUTO_RECONNECT, true);
-    mysql_set_option(options, MULTI_STATEMENTS, true);
-    mysql_set_option(options, POOL_SIZE, 2);
+	mysql_set_option(options, AUTO_RECONNECT, true);
+	mysql_set_option(options, MULTI_STATEMENTS, true);
+	mysql_set_option(options, POOL_SIZE, 2);
 
-    handler = mysql_connect(hostname, username, "", database, options);
+	handler = mysql_connect(hostname, username, "", database, options);
 
 
-    if (mysql_errno(handler) != 0)
-    {
-        err("[MySQL]: Can't connect to database!");
-        
-        SendRconCommand("exit");
-        return 1;
-    }
-    
-    log("[MySQL]: Successfully connected to database.");
+	if (mysql_errno(handler) != 0)
+	{
+		err("[MySQL]: Can't connect to database!");
+
+		SendRconCommand("exit");
+		return 1;
+	}
+
+	log("[MySQL]: Successfully connected to database.");
 
 	return 1;
 }
@@ -75,9 +76,9 @@ static MySQL_CreateConnection()
 hook OnGameModeExit()
 {
 	if (!mysql_close(handler))
-    {
-        fatal("Failed to terminate the database connection. Please check this.");
-    }
+	{
+		fatal("Failed to terminate the database connection. Please check this.");
+	}
 
 	return Y_HOOKS_CONTINUE_RETURN_1;
 }
@@ -85,5 +86,5 @@ hook OnGameModeExit()
 // callback;
 public OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
 {
-    return 1;
+	return 1;
 }
